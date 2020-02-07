@@ -1,0 +1,10 @@
+#root .root-progress {
+  height: 2px;
+}
+
+.appbar {
+  &.appbar-shadow {
+    opacity: 0;
+    pointer-events: none;
+  }
+}

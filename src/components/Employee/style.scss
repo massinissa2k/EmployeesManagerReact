@@ -1,0 +1,28 @@
+.employee-card {
+    max-width: 250px;
+    margin: 10px;
+  
+    &.employee-big-card {
+      max-width: initial;
+    }
+  
+    .employee-link-card {
+      color: inherit;
+      display: flex;
+      text-decoration: inherit;
+    }
+  
+    .employee-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .employee_box-card-image {
+      //height: 140px;
+      background-repeat: no-repeat;
+      background-size: contain;
+      font-size: 170px;
+      width: 100%;
+    }
+  }
+  
