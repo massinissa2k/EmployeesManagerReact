@@ -7,7 +7,7 @@ import store from "../../redux/store";
 import { Container, LinearProgress, AppBar, Toolbar, Typography, Button } from '@material-ui/core';
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
-import RestApiExampleWebService from "../../classes/RestApiExampleWebService";
+import RestWebService from "../../classes/RestWebService";
 import Employees from "../Employees";
 import Employee from "../Employee";
 import { Unsubscribe } from 'redux';
@@ -20,7 +20,7 @@ type IState = {
 
 class Main extends React.Component<IProps, IState> {
 
-    private readonly restApiExampleWebService: RestApiExampleWebService = new RestApiExampleWebService();
+    private readonly RestWebService: RestWebService = new RestWebService();
     private unsubscribe: Unsubscribe;
     private hashRouter: Router | undefined;
 
@@ -75,10 +75,7 @@ class Main extends React.Component<IProps, IState> {
     }
 
     private subscribe(): void {
-        console.log(this.getDisplayProgressStatus());
-        this.setState({ displayProgress: this.getDisplayProgressStatus() }, () => {
-            console.log(this.state.displayProgress);
-        });
+        this.setState({ displayProgress: this.getDisplayProgressStatus() }, () => { });
     }
 
     private goBack(): void {

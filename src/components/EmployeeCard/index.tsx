@@ -4,7 +4,7 @@ import { IEmployee } from "../../redux/type";
 import { Card, Typography, CardContent, CardActionArea, CardHeader, IconButton, Menu, MenuItem } from "@material-ui/core";
 import PersonIcon from '@material-ui/icons/Person';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import RestApiExampleWebService from "../../classes/RestApiExampleWebService";
+import RestWebService from "../../classes/RestWebService";
 
 interface IProps {
     employee: IEmployee;
@@ -84,7 +84,7 @@ class EmployeeCard extends React.Component<IProps, IState> {
         }
 
         if (option === "Supprimer") {
-            await RestApiExampleWebService.getInstance().employeeRemoveStore(this.props.employee.id);
+            await RestWebService.getInstance().employeeRemoveStore(this.props.employee.id);
             this.setState({
                 anchorEl: null
             }, () => {

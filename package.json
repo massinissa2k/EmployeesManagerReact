@@ -2,6 +2,7 @@
   "name": "employeemanagerreact",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://massinissa.fr/EmployeesManagerReact/",
   "dependencies": {
     "@material-ui/core": "^4.9.1",
     "@material-ui/icons": "^4.9.1",

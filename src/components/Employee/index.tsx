@@ -2,7 +2,7 @@ import "./style.scss";
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import store from "../../redux/store";
-import RestApiExampleWebService from "../../classes/RestApiExampleWebService";
+import RestWebService from "../../classes/RestWebService";
 import { IEmployee } from "../../redux/type";
 import { Unsubscribe } from "redux";
 import { Card, CardHeader, CardActionArea, CardContent, IconButton, Menu, MenuItem, TextField, TextFieldProps } from "@material-ui/core";
@@ -83,7 +83,7 @@ class Employee extends React.Component<IProps, IState> {
 
     public componentDidMount(): void {
         if (this.props.match.params.id) {
-            RestApiExampleWebService.getInstance().employeeSetFocusedStore(this.props.match.params.id);
+            RestWebService.getInstance().employeeSetFocusedStore(this.props.match.params.id);
         }
     }
 
@@ -154,10 +154,10 @@ class Employee extends React.Component<IProps, IState> {
 
         let userId = this.state.id;
         if(this.props.match.params.create) {
-            userId = await RestApiExampleWebService.getInstance().employeeCreateStore(new EmployeeObject(this.state));
-            RestApiExampleWebService.getInstance().employeeSetFocusedStore(userId);
+            userId = await RestWebService.getInstance().employeeCreateStore(new EmployeeObject(this.state));
+            RestWebService.getInstance().employeeSetFocusedStore(userId);
         } else {
-            await RestApiExampleWebService.getInstance().employeeUpdateStore(new EmployeeObject(this.state));
+            await RestWebService.getInstance().employeeUpdateStore(new EmployeeObject(this.state));
         }
 
         this.props.history.push("/employee/".concat(userId));
@@ -183,7 +183,7 @@ class Employee extends React.Component<IProps, IState> {
 
     private async onClickNavigateTo(option: string): Promise<void> {
         if (option === "Confirmer la suppression") {
-            await RestApiExampleWebService.getInstance().employeeRemoveStore(this.state.id);
+            await RestWebService.getInstance().employeeRemoveStore(this.state.id);
             this.setState({
                 anchorEl: null
             }, () => {

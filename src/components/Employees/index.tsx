@@ -3,7 +3,7 @@ import React from "react";
 import store from "../../redux/store";
 import { Unsubscribe } from "redux";
 
-import RestApiExampleWebService from "../../classes/RestApiExampleWebService";
+import RestWebService from "../../classes/RestWebService";
 import EmployeeCard from "../EmployeeCard";
 import EmployeeCardCreate from "../EmployeeCardCreate";
 import { IEmployee } from "../../redux/type";
@@ -37,7 +37,7 @@ class Employees extends React.Component<IProps, IState> {
     }
 
     public componentDidMount(): void {
-        RestApiExampleWebService.getInstance().employeesSetStore();
+        RestWebService.getInstance().employeesSetStore();
     }
 
     public componentWillUnmount(): void {
@@ -49,7 +49,6 @@ class Employees extends React.Component<IProps, IState> {
     }
 
     private getEmployeesFromObject(employees: IEmployee[]): JSX.Element[] {
-        //<RouterLink to="/employee/x/create">Create</RouterLink>
         const employeeCards: JSX.Element[] = [];
         if(employees.length) {
             employeeCards.push(<EmployeeCardCreate key={"create"} type="create_employee" employee={new EmployeeObject()} history={this.props.history} />);

@@ -1,25 +1,24 @@
 import { setEmployeeFocus, setEmployees, setFetchingData } from "../redux/actions";
 import store from "../redux/store";
 
-import fakeEmployees from "../fakeDatas/employes.json";
 import { IEmployee } from "../redux/type";
 
-class RestApiExampleWebService {
+class RestWebServiceV1 {
 
-    static instance: RestApiExampleWebService;
+    static instance: RestWebServiceV1;
 
     private urlPrefix: string = "http://dummy.restapiexample.com/api/v1/";
 
     constructor() {
-        if (!RestApiExampleWebService.instance) {
-            RestApiExampleWebService.instance = this;
+        if (!RestWebServiceV1.instance) {
+            RestWebServiceV1.instance = this;
         }
 
-        return RestApiExampleWebService.instance;
+        return RestWebServiceV1.instance;
     }
 
-    public static getInstance(): RestApiExampleWebService {
-        return RestApiExampleWebService.instance || new RestApiExampleWebService();
+    public static getInstance(): RestWebServiceV1 {
+        return RestWebServiceV1.instance || new RestWebServiceV1();
     }
 
     public async employeeCreateStore(employee: IEmployee): Promise<string> {
@@ -46,24 +45,21 @@ class RestApiExampleWebService {
         store.dispatch(setEmployeeFocus(await this.employeeGetById(id)));
     }
 
-    private async employeeGetById(id: string): Promise<any> {
+    protected async employeeGetById(id: string): Promise<any> {
         store.dispatch(setFetchingData(true));
-        /*const request = new Request(this.urlPrefix.concat("employee/", id));
+        const request = new Request(this.urlPrefix.concat("employee/", id));
         const response = await fetch(request);
         const { success, data } = await response.json();
-        return data;*/
-
-        //mock
-        const data = fakeEmployees.data.find(element => element.id === id);
-        setTimeout(() => store.dispatch(setFetchingData(false)), 300);
-        return [data];
+        store.dispatch(setFetchingData(false));
+        return data;
     }
 
-    private async employeeCreate(employee: IEmployee): Promise<string> {
+    protected async employeeCreate(employee: IEmployee): Promise<string> {
         store.dispatch(setFetchingData(true));
         const id = employee.id;
         delete employee.id;
-        /*const request = new Request(this.urlPrefix.concat("create"), {
+        
+        const request = new Request(this.urlPrefix.concat("create"), {
             method: "POST",
             headers: {
                 'Content-type': 'application/json; charset=UTF-8', 
@@ -76,23 +72,16 @@ class RestApiExampleWebService {
         });
         const response = await fetch(request);
         const { success, data } = await response.json();
-        return data.id;*/
-
-        //mock
-        const fakeId = Date.now().toString();
-        fakeEmployees.data.push({
-            id: fakeId,
-            ...employee,
-        });
-        setTimeout(() => store.dispatch(setFetchingData(false)), 300);
-        return fakeId;
+        store.dispatch(setFetchingData(false));
+        return data.id;
     }
 
-    private async employeeUpdate(employee: IEmployee): Promise<void> {
+    protected async employeeUpdate(employee: IEmployee): Promise<void> {
         store.dispatch(setFetchingData(true));
         const id = employee.id;
         delete employee.id;
-        /*const request = new Request(this.urlPrefix.concat("update/", id), {
+        
+        const request = new Request(this.urlPrefix.concat("update/", id), {
             method: "PUT",
             headers: {
                 'Content-type': 'application/json; charset=UTF-8', 
@@ -103,40 +92,25 @@ class RestApiExampleWebService {
                 age: employee.employee_age,
             }),
         });
-        await fetch(request);*/
-
-        //mock
-        const employeeOrig = fakeEmployees.data.find(element => element.id === id);
-        Object.assign(employeeOrig, employee);
-        setTimeout(() => store.dispatch(setFetchingData(false)), 300);
+        await fetch(request);
+        store.dispatch(setFetchingData(false));
     }
 
-    private async employeeRemoveById(id: string): Promise<void> {
+    protected async employeeRemoveById(id: string): Promise<void> {
         store.dispatch(setFetchingData(true));
-        /*const request = new Request(this.urlPrefix.concat("delete/", id));
-        await fetch(request);*/
-
-        //mock
-        const elementIndex = fakeEmployees.data.findIndex(element => element.id === id);
-        fakeEmployees.data.splice(elementIndex, 1);
-        setTimeout(() => store.dispatch(setFetchingData(false)), 300);
+        const request = new Request(this.urlPrefix.concat("delete/", id));
+        store.dispatch(setFetchingData(false));
+        await fetch(request);
     }
 
-    private async employeesGet(): Promise<IEmployee[]> {
+    protected async employeesGet(): Promise<IEmployee[]> {
         store.dispatch(setFetchingData(true));
-        /*const request = new Request(this.urlPrefix.concat("employees"));
+        const request = new Request(this.urlPrefix.concat("employees"));
         const response = await fetch(request);
         const { success, data } = await response.json();
-        return data;*/
-        //mock
-        //return fakeEmployees.data;
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve(fakeEmployees.data);
-                store.dispatch(setFetchingData(false));
-            }, 1000);
-        });
+        store.dispatch(setFetchingData(false));
+        return data;
     }
 }
 
-export default RestApiExampleWebService;
+export default RestWebServiceV1;
