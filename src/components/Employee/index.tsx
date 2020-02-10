@@ -91,7 +91,7 @@ class Employee extends React.Component<IProps, IState> {
     }
 
     private getEmployeeNameField(): JSX.Element {
-        const props: TextFieldProps = { label: "Name", value: this.state.employee_name, InputProps: { readOnly: true } };
+        const props: TextFieldProps = { label: "Name", defaultValue: this.state.employee_name, InputProps: { readOnly: true } };
 
         if (this.props.match.params.mode === "edit" || this.props.match.params.mode === "create") {
             props.onChange = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ employee_name: e.currentTarget.value });
@@ -102,23 +102,25 @@ class Employee extends React.Component<IProps, IState> {
     }
 
     private getEmployeeAgeField(): JSX.Element {
+        const props: TextFieldProps = { type: "number", label: "Age", defaultValue: this.state.employee_age, InputProps: { readOnly: true } };
+
         if (this.props.match.params.mode === "edit" || this.props.match.params.mode === "create") {
-            return <TextField type="number" label="Age" value={this.state.employee_age} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                this.setState({ employee_age: e.currentTarget.value });
-            }} />;
+            props.onChange = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ employee_age: e.currentTarget.value });
+            (props.InputProps as any).readOnly = false;
         }
 
-        return <TextField type="number" label="Age" value={this.state.employee_age} InputProps={{ readOnly: true }} />;
+        return <TextField  {...props} />;
     }
 
     private getEmployeeSalaryField(): JSX.Element {
+        const props: TextFieldProps = { type: "number", label: "Salary", defaultValue: this.state.employee_salary, InputProps: { readOnly: true } };
+
         if (this.props.match.params.mode === "edit" || this.props.match.params.mode === "create") {
-            return <TextField type="number" label="Salary" value={this.state.employee_salary} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                this.setState({ employee_salary: e.currentTarget.value });
-            }} />;
+            props.onChange = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ employee_age: e.currentTarget.value });
+            (props.InputProps as any).readOnly = false;
         }
 
-        return <TextField type="number" label="Salary" value={this.state.employee_salary} InputProps={{ readOnly: true }} />;
+        return <TextField  {...props} />;
     }
 
     private getHeaderActions(): JSX.Element[] {
