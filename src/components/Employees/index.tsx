@@ -33,7 +33,7 @@ class Employees extends React.Component<IProps, IState> {
     }
 
     public render(): JSX.Element {
-    return <Container className={style.containerEmployees}><Router>{this.state.employeeCards}</Router></Container>;
+        return <Container className={style.containerEmployees}><Router>{this.state.employeeCards}</Router></Container>;
     }
 
     public componentDidMount(): void {
@@ -50,7 +50,7 @@ class Employees extends React.Component<IProps, IState> {
 
     private getEmployeesFromObject(employees: IEmployee[]): JSX.Element[] {
         const employeeCards: JSX.Element[] = [];
-        if(employees.length) {
+        if (employees.length) {
             employeeCards.push(<EmployeeCardCreate key={"create"} type="create_employee" employee={new EmployeeObject()} history={this.props.history} />);
         }
 

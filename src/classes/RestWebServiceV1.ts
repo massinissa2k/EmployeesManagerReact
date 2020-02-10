@@ -57,11 +57,11 @@ class RestWebServiceV1 {
     protected async employeeCreate(employee: IEmployee): Promise<string> {
         store.dispatch(setFetchingData(true));
         delete employee.id;
-        
+
         const request = new Request(this.urlPrefix.concat("create"), {
             method: "POST",
             headers: {
-                'Content-type': 'application/json; charset=UTF-8', 
+                'Content-type': 'application/json; charset=UTF-8',
             },
             body: JSON.stringify({
                 name: employee.employee_name,
@@ -79,11 +79,11 @@ class RestWebServiceV1 {
         store.dispatch(setFetchingData(true));
         const id = employee.id;
         delete employee.id;
-        
+
         const request = new Request(this.urlPrefix.concat("update/", id), {
             method: "PUT",
             headers: {
-                'Content-type': 'application/json; charset=UTF-8', 
+                'Content-type': 'application/json; charset=UTF-8',
             },
             body: JSON.stringify({
                 name: employee.employee_name,

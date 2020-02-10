@@ -62,8 +62,7 @@ class Main extends React.Component<IProps, IState> {
                 <Container maxWidth="lg">
                     <Router ref={(hashRouter: Router) => { this.hashRouter = hashRouter; }}>
                         <Switch>
-                            <Route path="/employee/:id/:create" component={Employee} ></Route>
-                            <Route path="/employee/:id/:edit" component={Employee} ></Route>
+                            <Route path="/employee/:id/:mode" component={Employee} ></Route>
                             <Route path="/employee/:id" component={Employee} ></Route>
                             <Route path="" component={Employees} ></Route>
                         </Switch>

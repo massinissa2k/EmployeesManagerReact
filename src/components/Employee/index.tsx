@@ -14,9 +14,8 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import EmployeeObject from '../../classes/EmployeeObject';
 
 type IRoutParams = {
-    id: string | undefined;
-    edit: string | undefined;
-    create: string | undefined;
+    id: string;
+    mode: string | undefined;
 };
 type IProps = RouteComponentProps<IRoutParams>;
 interface IState extends IEmployee {
@@ -33,7 +32,7 @@ class Employee extends React.Component<IProps, IState> {
     constructor(public props: IProps) {
         super(props);
         this.subscribe = this.subscribe.bind(this);
-        
+
         this.state = {
             ...(store.getState().employeeFocus || new EmployeeObject()),
             anchorEl: null,
@@ -50,7 +49,7 @@ class Employee extends React.Component<IProps, IState> {
 
     public render(): JSX.Element {
 
-        if (!this.state.id && !this.props.match.params.create) {
+        if (!this.state.id && this.props.match.params.mode !== "create") {
             return <div>Changement...</div>
         }
 
@@ -92,9 +91,9 @@ class Employee extends React.Component<IProps, IState> {
     }
 
     private getEmployeeNameField(): JSX.Element {
-        const props: TextFieldProps = {label: "Name", value: this.state.employee_name, InputProps: { readOnly: true } };
+        const props: TextFieldProps = { label: "Name", value: this.state.employee_name, InputProps: { readOnly: true } };
 
-        if (this.props.match.params.edit || this.props.match.params.create) {
+        if (this.props.match.params.mode === "edit" || this.props.match.params.mode === "create") {
             props.onChange = (e: React.ChangeEvent<HTMLInputElement>) => this.setState({ employee_name: e.currentTarget.value });
             (props.InputProps as any).readOnly = false;
         }
@@ -103,7 +102,7 @@ class Employee extends React.Component<IProps, IState> {
     }
 
     private getEmployeeAgeField(): JSX.Element {
-        if (this.props.match.params.edit || this.props.match.params.create) {
+        if (this.props.match.params.mode === "edit" || this.props.match.params.mode === "create") {
             return <TextField type="number" label="Age" value={this.state.employee_age} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 this.setState({ employee_age: e.currentTarget.value });
             }} />;
@@ -113,7 +112,7 @@ class Employee extends React.Component<IProps, IState> {
     }
 
     private getEmployeeSalaryField(): JSX.Element {
-        if (this.props.match.params.edit || this.props.match.params.create) {
+        if (this.props.match.params.mode === "edit" || this.props.match.params.mode === "create") {
             return <TextField type="number" label="Salary" value={this.state.employee_salary} onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 this.setState({ employee_salary: e.currentTarget.value });
             }} />;
@@ -125,7 +124,7 @@ class Employee extends React.Component<IProps, IState> {
     private getHeaderActions(): JSX.Element[] {
         const actions: JSX.Element[] = [];
 
-        if (this.props.match.params.edit || this.props.match.params.create) {
+        if (this.props.match.params.mode === "edit" || this.props.match.params.mode === "create") {
             actions.push(
                 <IconButton key="done" aria-label="Valider" title="Valider" onClick={this.onClickCardValidate} >
                     <DoneIcon />
@@ -153,7 +152,7 @@ class Employee extends React.Component<IProps, IState> {
     private async onClickCardValidate(e: React.MouseEvent<HTMLElement>): Promise<void> {
 
         let userId = this.state.id;
-        if(this.props.match.params.create) {
+        if (this.props.match.params.mode === "create") {
             userId = await RestWebService.getInstance().employeeCreateStore(new EmployeeObject(this.state));
             RestWebService.getInstance().employeeSetFocusedStore(userId);
         } else {
@@ -162,9 +161,9 @@ class Employee extends React.Component<IProps, IState> {
 
         this.props.history.push("/employee/".concat(userId));
     }
-    
+
     private onClickCardCancel(e: React.MouseEvent<HTMLElement>): void {
-        if(!this.state.id) {
+        if (!this.state.id) {
             this.props.history.push("/");
             return;
         }
