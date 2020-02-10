@@ -1,4 +1,4 @@
-import "./style.scss";
+import style from "./style.module.scss";
 import React from "react";
 import store from "../../redux/store";
 import { Unsubscribe } from "redux";
@@ -33,7 +33,7 @@ class Employees extends React.Component<IProps, IState> {
     }
 
     public render(): JSX.Element {
-    return <Container className="container-employees"><Router>{this.state.employeeCards}</Router></Container>;
+    return <Container className={style.containerEmployees}><Router>{this.state.employeeCards}</Router></Container>;
     }
 
     public componentDidMount(): void {

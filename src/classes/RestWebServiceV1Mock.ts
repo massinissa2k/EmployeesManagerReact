@@ -1,4 +1,4 @@
-import { setEmployeeFocus, setEmployees, setFetchingData } from "../redux/actions";
+import { setFetchingData } from "../redux/actions";
 import store from "../redux/store";
 
 import fakeEmployees from "../fakeDatas/employes.json";
@@ -28,7 +28,6 @@ class RestWebServiceV1Mock extends RestWebServiceV1 {
 
     protected async employeeCreate(employee: IEmployee): Promise<string> {
         store.dispatch(setFetchingData(true));
-        const id = employee.id;
         delete employee.id;
 
         const fakeId = Date.now().toString();

@@ -1,10 +1,10 @@
-import "./style.scss";
+import style from "./style.module.scss";
 import React from 'react';
 import { Provider } from "react-redux";
 import { } from "../../redux/actions";
 import store from "../../redux/store";
 
-import { Container, LinearProgress, AppBar, Toolbar, Typography, Button } from '@material-ui/core';
+import { Container, LinearProgress, AppBar, Toolbar, Typography, Button, ThemeProvider, createMuiTheme } from '@material-ui/core';
 import { HashRouter as Router, Switch, Route } from "react-router-dom";
 
 import RestWebService from "../../classes/RestWebService";
@@ -17,6 +17,12 @@ type IProps = {};
 type IState = {
     displayProgress: "inherit" | "none";
 };
+
+const theme = createMuiTheme({
+    palette: {
+        type: "dark"
+    }
+});
 
 class Main extends React.Component<IProps, IState> {
 
@@ -39,30 +45,32 @@ class Main extends React.Component<IProps, IState> {
     }
 
     public render(): JSX.Element {
-        return <Provider store={store}>
-            <AppBar className="appbar appbar-shadow" position="static">
-                <Toolbar />
-            </AppBar>
-            <AppBar className="appbar" position="fixed">
-                <Toolbar>
-                    <Button color="inherit" onClick={this.goBack} ><HomeIcon /></Button>
-                    <Typography variant="h6" >
-                        Employee manager application
+        return <ThemeProvider theme={theme}>
+            <Provider store={store}>
+                <AppBar className={style.appbarShadow} position="static">
+                    <Toolbar />
+                </AppBar>
+                <AppBar position="fixed">
+                    <Toolbar>
+                        <Button color="inherit" onClick={this.goBack} ><HomeIcon /></Button>
+                        <Typography variant="h6" >
+                            Employee manager application
                     </Typography>
-                </Toolbar>
-                <LinearProgress className="root-progress" style={{ display: this.state.displayProgress }} />
-            </AppBar>
-            <Container maxWidth="lg">
-                <Router ref={(hashRouter: Router)=> {this.hashRouter = hashRouter;}}>
-                    <Switch>
-                        <Route path="/employee/:id/:create" component={Employee} ></Route>
-                        <Route path="/employee/:id/:edit" component={Employee} ></Route>
-                        <Route path="/employee/:id" component={Employee} ></Route>
-                        <Route path="" component={Employees} ></Route>
-                    </Switch>
-                </Router>
-            </Container>
-        </Provider>;
+                    </Toolbar>
+                    <LinearProgress className={style.progress} style={{ display: this.state.displayProgress }} />
+                </AppBar>
+                <Container maxWidth="lg">
+                    <Router ref={(hashRouter: Router) => { this.hashRouter = hashRouter; }}>
+                        <Switch>
+                            <Route path="/employee/:id/:create" component={Employee} ></Route>
+                            <Route path="/employee/:id/:edit" component={Employee} ></Route>
+                            <Route path="/employee/:id" component={Employee} ></Route>
+                            <Route path="" component={Employees} ></Route>
+                        </Switch>
+                    </Router>
+                </Container>
+            </Provider>
+        </ThemeProvider>;
     }
 
     public componentWillUnmount(): void {
@@ -79,7 +87,7 @@ class Main extends React.Component<IProps, IState> {
     }
 
     private goBack(): void {
-        if(!this.hashRouter) {return;}
+        if (!this.hashRouter) { return; }
         //@ts-ignore
         this.hashRouter.history.push("/");
     }

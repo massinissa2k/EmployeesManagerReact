@@ -49,14 +49,13 @@ class RestWebServiceV1 {
         store.dispatch(setFetchingData(true));
         const request = new Request(this.urlPrefix.concat("employee/", id));
         const response = await fetch(request);
-        const { success, data } = await response.json();
+        const { data } = await response.json();
         store.dispatch(setFetchingData(false));
         return data;
     }
 
     protected async employeeCreate(employee: IEmployee): Promise<string> {
         store.dispatch(setFetchingData(true));
-        const id = employee.id;
         delete employee.id;
         
         const request = new Request(this.urlPrefix.concat("create"), {
@@ -71,7 +70,7 @@ class RestWebServiceV1 {
             }),
         });
         const response = await fetch(request);
-        const { success, data } = await response.json();
+        const { data } = await response.json();
         store.dispatch(setFetchingData(false));
         return data.id;
     }
@@ -107,7 +106,7 @@ class RestWebServiceV1 {
         store.dispatch(setFetchingData(true));
         const request = new Request(this.urlPrefix.concat("employees"));
         const response = await fetch(request);
-        const { success, data } = await response.json();
+        const { data } = await response.json();
         store.dispatch(setFetchingData(false));
         return data;
     }
