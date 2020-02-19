@@ -37,6 +37,7 @@ class Employees extends React.Component<IProps, IState> {
     }
 
     public componentDidMount(): void {
+        RestWebService.getInstance().employeeUnSetFocusedStore();
         RestWebService.getInstance().employeesSetStore();
     }
 

@@ -44,6 +44,10 @@ class RestWebService {
     public async employeeSetFocusedStore(id: string): Promise<void> {
         return this.service.employeeSetFocusedStore(id);
     }
+
+    public async employeeUnSetFocusedStore(): Promise<void> {
+        return this.service.employeeUnSetFocusedStore();
+    }
 }
 
 export default RestWebService;

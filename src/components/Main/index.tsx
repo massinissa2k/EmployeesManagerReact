@@ -10,6 +10,7 @@ import { HashRouter as Router, Switch, Route } from "react-router-dom";
 import RestWebService from "../../classes/RestWebService";
 import Employees from "../Employees";
 import Employee from "../Employee";
+import EmployeeSearch from "../EmployeeSearch";
 import { Unsubscribe } from 'redux';
 import HomeIcon from '@material-ui/icons/Home';
 
@@ -47,27 +48,30 @@ class Main extends React.Component<IProps, IState> {
     public render(): JSX.Element {
         return <ThemeProvider theme={theme}>
             <Provider store={store}>
+            <Router ref={(hashRouter: Router) => { this.hashRouter = hashRouter; }}>
                 <AppBar className={style.appbarShadow} position="static">
                     <Toolbar />
                 </AppBar>
                 <AppBar position="fixed">
                     <Toolbar>
                         <Button color="inherit" onClick={this.goBack} ><HomeIcon /></Button>
-                        <Typography variant="h6" >
+                        <Typography variant="h6" style={{flexGrow: 1,}}>
                             Employee manager application
-                    </Typography>
+                        </Typography>
+                        <Switch>
+                            <Route path="" component={EmployeeSearch} ></Route>
+                        </Switch>
                     </Toolbar>
                     <LinearProgress className={style.progress} style={{ display: this.state.displayProgress }} />
                 </AppBar>
                 <Container maxWidth="lg">
-                    <Router ref={(hashRouter: Router) => { this.hashRouter = hashRouter; }}>
                         <Switch>
                             <Route path="/employee/:id/:mode" component={Employee} ></Route>
                             <Route path="/employee/:id" component={Employee} ></Route>
                             <Route path="" component={Employees} ></Route>
                         </Switch>
-                    </Router>
                 </Container>
+                </Router>
             </Provider>
         </ThemeProvider>;
     }

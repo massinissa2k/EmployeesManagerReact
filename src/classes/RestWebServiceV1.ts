@@ -45,6 +45,10 @@ class RestWebServiceV1 {
         store.dispatch(setEmployeeFocus(await this.employeeGetById(id)));
     }
 
+    public async employeeUnSetFocusedStore(): Promise<void> {
+        store.dispatch(setEmployeeFocus([]));
+    }
+
     protected async employeeGetById(id: string): Promise<any> {
         store.dispatch(setFetchingData(true));
         const request = new Request(this.urlPrefix.concat("employee/", id));

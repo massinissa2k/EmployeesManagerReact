@@ -184,10 +184,10 @@ class Employee extends React.Component<IProps, IState> {
 
     private async onClickNavigateTo(option: string): Promise<void> {
         if (option === "Confirmer la suppression") {
-            await RestWebService.getInstance().employeeRemoveStore(this.state.id);
             this.setState({
                 anchorEl: null
             }, () => {
+                RestWebService.getInstance().employeeRemoveStore(this.state.id);
                 this.props.history.push("/employees");
             });
         }
@@ -200,8 +200,11 @@ class Employee extends React.Component<IProps, IState> {
     }
 
     private subscribe(): void {
-        let employee: IEmployee = { ...(store.getState().employeeFocus || new EmployeeObject()) };
-        this.setState({ ...employee });
+        const {employeeFocus} = store.getState();
+        let employee: IEmployee = { ...(employeeFocus || new EmployeeObject()) };
+        this.setState({ ...(new EmployeeObject()) }, () => {
+            this.setState({ ...employee });
+        });
     }
 }
 
