@@ -56,7 +56,7 @@ class Main extends React.Component<IProps, IState> {
                     <Toolbar>
                         <Button color="inherit" onClick={this.goBack} ><HomeIcon /></Button>
                         <Typography variant="h6" style={{flexGrow: 1,}}>
-                            Employee manager application
+                            <span className="app-title" ></span>
                         </Typography>
                         <Switch>
                             <Route path="" component={EmployeeSearch} ></Route>

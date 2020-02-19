@@ -59,7 +59,6 @@ class EmployeeSearch extends React.Component<IProps, IState> {
             this.props.history.push("/");
             return;
         }
-        console.log(employee.id);
         this.props.history.push("/employee/".concat(employee.id));
     }
 }

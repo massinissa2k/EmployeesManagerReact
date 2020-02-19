@@ -29,6 +29,9 @@ class Employee extends React.Component<IProps, IState> {
     ];
 
     private unsubscribe: Unsubscribe;
+
+    private employeeId: string | null;
+
     constructor(public props: IProps) {
         super(props);
         this.subscribe = this.subscribe.bind(this);
@@ -45,6 +48,8 @@ class Employee extends React.Component<IProps, IState> {
         this.onClickCardValidate = this.onClickCardValidate.bind(this);
         this.onClickCardCancel = this.onClickCardCancel.bind(this);
         this.handleClose = this.handleClose.bind(this);
+
+        this.employeeId = null;
     }
 
     public render(): JSX.Element {
@@ -82,12 +87,20 @@ class Employee extends React.Component<IProps, IState> {
 
     public componentDidMount(): void {
         if (this.props.match.params.id) {
-            RestWebService.getInstance().employeeSetFocusedStore(this.props.match.params.id);
+            this.employeeId = this.props.match.params.id;
+            RestWebService.getInstance().employeeSetFocusedStore(this.employeeId);
         }
     }
 
     public componentWillUnmount(): void {
         this.unsubscribe();
+    }
+
+    public componentDidUpdate() {
+        if(this.props.match.params.id !== this.employeeId) {
+            this.employeeId = this.props.match.params.id;
+            RestWebService.getInstance().employeeSetFocusedStore(this.employeeId);
+        }
     }
 
     private getEmployeeNameField(): JSX.Element {
